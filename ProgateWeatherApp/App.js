@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
-import { BASE_URL, API_KEY } from './src/constant';
+import { BASE_URL, API_KEY_VALUE } from './src/constant';
 import WeatherSearch from './src/components/WeatherSearch';
 import WeatherInfo from './src/components/WeatherInfo';
 
@@ -12,12 +12,12 @@ const App = () => {
   const searchWeather = (location) => {
     setStatus('loading');
     axios
-      .get(`${BASE_URL}?q=${location}&appid=${API_KEY}`)
+      .get(`${BASE_URL}?q=${location}&appid=${API_KEY_VALUE}`)
       .then((response) => {
         const data = response.data;
         data.visibility /= 1000;
         data.visibility = data.visibility.toFixed(2);
-        data.main.temp -= 273.15;
+        data.main.temp -= 273.15; // Convert Kelvin to Celsius
         data.main.temp = data.main.temp.toFixed(2);
         setWeatherData(data);
         setStatus('success');
